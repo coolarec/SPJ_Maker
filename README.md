@@ -182,3 +182,21 @@ pnpm build
 
 - `code/` 目录下默认只保留需要纳入版本控制的 `testlib.h`
 - `static/` 目录既承担图片资源目录，也承担前端构建输出目录
+
+## 生产环境启动
+> 生产环境使用 gunicorn 部署，运行在 5000 端口
+
+进入服务器项目根目录，拉取最新 GitHub repo：
+
+```bash
+git pull
+```
+
+> 如果有依赖更新，则执行对应的安装依赖指令。
+
+启动项目：
+```bash
+./start.sh
+```
+
+访问：https://acm.sdut.edu.cn/spjmaker
