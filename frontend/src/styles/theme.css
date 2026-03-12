@@ -11,13 +11,21 @@
   --spot2: rgba(128, 128, 128, 0.18);
   --spot3: rgba(128, 128, 128, 0);
   --aside-bg: var(--bg);
+  color-scheme: light;
 }
 
+html,
+body,
+#app,
 .layout {
+  min-height: 100%;
   background: var(--bg);
   color: var(--text-primary);
 }
 
+:root.dark,
+html.dark,
+body.dark,
 .layout.dark {
   /* Base gray background */
   --bg: #2b2d30; /* overall page background (灰色基底) */
@@ -32,14 +40,27 @@
   --spot1: rgba(255,255,255,0.06);
   --spot2: rgba(255,255,255,0.03);
   --spot3: rgba(255,255,255,0);
+  color-scheme: dark;
 }
 
 :root {
   --muted-bg: #fafafa;
 }
 
+:root.dark,
+html.dark,
+body.dark,
 .layout.dark {
   --muted-bg: #0b1116;
+}
+
+body {
+  margin: 0;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+#app {
+  min-height: 100vh;
 }
 
 

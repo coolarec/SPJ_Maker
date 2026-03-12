@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, onBeforeUnmount, onMounted, watch } from 'vue';
 import Editor from './components/editor.vue';
 import TestCase from './components/test-case.vue';
 import FileDowload from './components/file-dowload.vue';
@@ -11,7 +11,7 @@ import { ElMessageBox } from 'element-plus';
 import { submitDataAndStd } from './api';
 import type { DataStdInput } from './api';
 
-import { Moon, Sunny,Opportunity } from '@element-plus/icons-vue';
+import { Moon, Sunny, Opportunity } from '@element-plus/icons-vue';
 const createPageUuid = () => {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
     return crypto.randomUUID();
@@ -37,6 +37,20 @@ const onHeaderMouseMove = (event: MouseEvent) => {
 const isCodeSubmitted = ref(true);
 const isDark = ref(false);
 const submittingData = ref(false);
+const hasStoredThemePreference = ref(false);
+const themeReady = ref(false);
+let prefersDarkMedia: MediaQueryList | null = null;
+
+const handlePrefersDarkChange = (event: MediaQueryListEvent) => {
+  try {
+    const stored = localStorage.getItem('spj_theme');
+    if (stored === 'dark' || stored === 'light') return;
+  } catch (e) {
+    /* ignore */
+  }
+
+  isDark.value = event.matches;
+};
 
 const spjCode = ref('');
 const stdCode = ref('');
@@ -52,21 +66,6 @@ const handleCasesChange = (cases: Array<{ id?: string; name?: string; input?: st
 
 const hasValidCases = (cases: Array<{ input?: string; output?: string }>) =>
   cases.some((item) => (item.input ?? '').trim() !== '' || (item.output ?? '').trim() !== '');
-
-// helper used by both button disabled state and final validation
-const canSubmit = (
-  spjCode: string,
-  stdCode: string,
-  cases: Array<{ input?: string; output?: string }>
-) => {
-  const hasCases = hasValidCases(cases);
-  if (hasCases) {
-    // when there are any non‑empty cases both codes must be nonempty
-    return spjCode !== '' && stdCode !== '';
-  }
-  // without cases only SPJ is required
-  return spjCode !== '';
-};
 
 const validateBeforeSubmit = (
   spjCode: string,
@@ -121,6 +120,19 @@ const buildSubmitResultMessage = (res: { success?: boolean; message?: string; ca
   return lines.join('\n');
 };
 
+const syncDocumentTheme = (dark: boolean) => {
+  if (typeof document === 'undefined') return;
+
+  const classNames = ['dark', 'el-theme-dark'];
+  [document.documentElement, document.body].forEach((element) => {
+    classNames.forEach((className) => {
+      element.classList.toggle(className, dark);
+    });
+  });
+
+  document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+};
+
 const handleSubmitData = async () => {
   const currentSpjCode = (spjCode.value || (editorRef.value?.getCode?.() as string | undefined) || '').trim();
   const currentStdCode = (stdCode.value || (solutionRef.value?.getCode?.() as string | undefined) || '').trim();
@@ -163,25 +175,49 @@ const handleSubmitData = async () => {
 };
 
 const toggleTheme = () => {
+  hasStoredThemePreference.value = true;
   isDark.value = !isDark.value;
 };
 
 onMounted(() => {
   try {
     const stored = localStorage.getItem('spj_theme');
-    if (stored === 'dark') isDark.value = true;
+    if (stored === 'dark' || stored === 'light') {
+      hasStoredThemePreference.value = true;
+      isDark.value = stored === 'dark';
+    } else if (typeof window !== 'undefined' && 'matchMedia' in window) {
+      prefersDarkMedia = window.matchMedia('(prefers-color-scheme: dark)');
+      isDark.value = prefersDarkMedia.matches;
+    }
   } catch (e) {
-    /* ignore */
+    if (typeof window !== 'undefined' && 'matchMedia' in window) {
+      prefersDarkMedia = window.matchMedia('(prefers-color-scheme: dark)');
+      isDark.value = prefersDarkMedia.matches;
+    }
   }
+
+  if (!prefersDarkMedia && typeof window !== 'undefined' && 'matchMedia' in window) {
+    prefersDarkMedia = window.matchMedia('(prefers-color-scheme: dark)');
+  }
+
+  prefersDarkMedia?.addEventListener?.('change', handlePrefersDarkChange);
+  themeReady.value = true;
+});
+
+onBeforeUnmount(() => {
+  prefersDarkMedia?.removeEventListener?.('change', handlePrefersDarkChange);
 });
 
 watch(isDark, (val) => {
+  syncDocumentTheme(val);
+  if (!themeReady.value || !hasStoredThemePreference.value) return;
+
   try {
     localStorage.setItem('spj_theme', val ? 'dark' : 'light');
   } catch (e) {
     /* ignore */
   }
-});
+}, { immediate: true });
 
 watch(stdCode, () => {
   testCaseRef.value?.clearCaseStatuses?.();
@@ -398,7 +434,10 @@ watch(stdCode, () => {
 }
 
 .theme-toggle .theme-btn {
-  background-color: #6a6a6a;
+  background: var(--card-bg);
+  border-color: var(--border);
+  color: var(--text-primary);
+  box-shadow: var(--shadow);
   width: 56px;
   height: 56px;
   padding: 0;
@@ -406,6 +445,11 @@ watch(stdCode, () => {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+}
+
+.theme-toggle .theme-btn:hover {
+  transform: translateY(-2px);
 }
 
 .theme-toggle .theme-btn svg {

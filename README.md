@@ -17,11 +17,11 @@
 
 ### 总览界面
 
-![SPJ Maker 总览界面](static/img/overview.png)
+![SPJ Maker 总览界面](img/overview.png)
 
 ### 提交与配置界面
 
-![SPJ Maker 提交与配置界面](static/img/submit.png)
+![SPJ Maker 提交与配置界面](img/submit.png)
 
 ## 项目结构
 
