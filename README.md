@@ -66,7 +66,7 @@ uv sync
 
 ```bash
 uv sync
-uv run python main.py
+uv run main.py
 uv add <package-name>
 uv remove <package-name>
 ```
@@ -99,7 +99,9 @@ uv sync
 uv run main.py
 ```
 
-默认监听地址：`http://127.0.0.1:5000`
+默认监听地址：`http://127.0.0.1:5000/spjmaker`
+
+各 API 路由分别位于 `http://127.0.0.1:5000/spjmaker/api`中
 
 ### 4. 启动前端开发环境
 
@@ -109,7 +111,7 @@ pnpm install
 pnpm dev
 ```
 
-前端默认开发地址通常为：`http://localhost:5173`
+前端默认开发地址为：`http://localhost:5173`
 
 ### 5. 构建前端到 `static/`
 
@@ -146,13 +148,13 @@ pnpm build
 如果需要新增后端依赖，使用：
 
 ```bash
-uv add flask
+uv add xxx
 ```
 
 如果只是运行某个脚本，也建议统一使用：
 
 ```bash
-uv run python <script>.py
+uv run <script>.py
 ```
 
 这样可以确保命令始终运行在项目自己的虚拟环境里，避免“本机环境能跑，别人环境炸了”的经典节目。
