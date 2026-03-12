@@ -20,6 +20,3 @@ code/**
 # ignore entire static directory except image folders
 static/*
 !static/img/
-
-*.sh
-
