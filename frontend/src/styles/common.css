@@ -1,0 +1,52 @@
+/* shared styles for headers and other reusable bits */
+
+/* card/header section used by editor, test-case, solution */
+.test-case-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding: 14px 15px 0;
+}
+
+.test-case-header h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.header-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+.header-actions > * {
+  min-width: 120px;
+}
+
+.el-card__header {
+  padding: 0 14px;
+}
+
+.test-case-header {
+  min-height: 48px;
+}
+.uniform-card {
+  height: 600px;
+  width: 100%;
+}
+
+/* ensure cards respect theme variables for bg/border */
+.el-card,
+.uniform-card {
+  background-color: var(--card-bg) !important;
+  border-color: var(--border) !important;
+  color: var(--text-primary);
+}

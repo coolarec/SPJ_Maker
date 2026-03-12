@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+.venv/
+
+# VS Code
+.vscode/
+frontend/.vscode/
+
+# Node
+node_modules/
+pnpm-lock.yaml
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# only include testlib.h under code directories, ignore other contents
+code/**
+!code/**/testlib.h
+
+# ignore entire static directory except image folders
+static/*
+!static/img/
+

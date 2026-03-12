@@ -1,0 +1,61 @@
+:root {
+  --bg: #f2f2f2;
+  --panel-bg: #f7f7f8;
+  --card-bg: #ffffff;
+  --border: #d1d1d1;
+  --shadow: 0 12px 28px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.08);
+  --text-primary: #1a1a1a;
+  --text-muted: #4a4a4a;
+  --text-muted2: #6a6a6a;
+  --spot1: rgba(128, 128, 128, 0.35);
+  --spot2: rgba(128, 128, 128, 0.18);
+  --spot3: rgba(128, 128, 128, 0);
+  --aside-bg: var(--bg);
+}
+
+.layout {
+  background: var(--bg);
+  color: var(--text-primary);
+}
+
+.layout.dark {
+  /* Base gray background */
+  --bg: #2b2d30; /* overall page background (灰色基底) */
+  --aside-bg: #27292b; /* aside / sidebar */
+  --panel-bg: #232425; /* panels and secondary surfaces */
+  --card-bg: #1f2123; /* primary cards and containers */
+  --border: #34373a;
+  --shadow: 0 12px 28px rgba(0,0,0,0.6), 0 4px 10px rgba(0,0,0,0.5);
+  --text-primary: #e6eef6;
+  --text-muted: #9fb0c0;
+  --text-muted2: #7f9aa8;
+  --spot1: rgba(255,255,255,0.06);
+  --spot2: rgba(255,255,255,0.03);
+  --spot3: rgba(255,255,255,0);
+}
+
+:root {
+  --muted-bg: #fafafa;
+}
+
+.layout.dark {
+  --muted-bg: #0b1116;
+}
+
+
+.layout.dark .header-card,
+.layout.dark .test-case,
+.layout.dark .editor-container,
+.layout.dark .case-item {
+  background: var(--card-bg);
+}
+
+.layout.dark .case-detail,
+.layout.dark .preview {
+  background: var(--panel-bg);
+}
+
+/* Element Plus 自带组件样式，暗色模式由 .el-theme-dark 类控制 */
+/* 下面的按钮颜色覆写可以删除，交给 Element Plus 主题管理 */
+
+/* 如果需要在自定义组件中覆盖颜色，可在此处添加 */
