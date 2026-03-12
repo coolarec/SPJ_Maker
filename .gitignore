@@ -21,3 +21,5 @@ code/**
 static/*
 !static/img/
 
+*.sh
+
