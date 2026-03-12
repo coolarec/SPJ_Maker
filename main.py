@@ -30,8 +30,8 @@ JUDGE_STATUS_LABELS = {
     8: "PE",
 }
 
-# serve static files directly at root so the app can be hosted at /
-app = Flask(__name__, static_folder=str(STATIC_ROOT), static_url_path="")
+# serve static files at /spjmaker so the app works when hosted at /spjmaker
+app = Flask(__name__, static_folder=str(STATIC_ROOT), static_url_path="/spjmaker")
 
 CODE_ROOT.mkdir(exist_ok=True)
 
