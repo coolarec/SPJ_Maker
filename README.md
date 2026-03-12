@@ -83,7 +83,7 @@ uv remove <package-name>
 ### 1. 克隆项目
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/coolarec/SPJ_Maker.git
 cd SPJ_Maker
 ```
 
@@ -180,7 +180,3 @@ pnpm build
 
 - `code/` 目录下默认只保留需要纳入版本控制的 `testlib.h`
 - `static/` 目录既承担图片资源目录，也承担前端构建输出目录
-
----
-
-如果后面你还想把 README 再补一版“界面截图 + 使用流程图”的版本，我也可以顺手给你整理得更像一个正经开源项目页面。 
