@@ -96,7 +96,7 @@ uv sync
 ### 3. 启动后端
 
 ```bash
-uv run python main.py
+uv run main.py
 ```
 
 默认监听地址：`http://127.0.0.1:5000`
